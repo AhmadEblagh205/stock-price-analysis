@@ -105,3 +105,11 @@ The known-regime audit generates four assets with calm correlation 0.15 and stre
 - Rolling correlation is an estimator and can move from sampling variation even under constant true correlation.
 - The stress-regime results are controlled simulation evidence, not an empirical law of markets.
 - None of the reported metrics establishes expected investment performance or an investable strategy.
+
+## Notes moved from the README
+
+- The earlier README said skew and kurtosis were there to show that "daily returns are not normal". The checked-in synthetic generator was close to Gaussian, so that sentence overclaimed. Version 0.3 removes it and tests tail shape in the repeated-world audit instead.
+- The old `ann_return` label mixed an annualised arithmetic mean with realised compounding. Version 0.3 reports `ann_mean_return` and `cagr` separately. Historical VaR and ES state their sign convention and are reported at 95% and 99%.
+- Tail columns are signed returns: `hist_var95_return = -0.03` means a 3% one-day lower-tail threshold. Expected shortfall is the mean return beyond the VaR threshold, so it is normally more negative than VaR.
+- At 95% the Student-t(5) world has a slightly smaller median historical VaR than the Gaussian world (2.43% against 2.56%) but a larger ES (3.49% against 3.21%). At 99% the heavy tail dominates both, and the Gaussian-fitted ES (4.19%) understates the Student-t(5) historical ES (5.28%).
+- Price inputs are validated for duplicate dates and columns, non-numeric values, missing values and non-positive prices. The optional `yfinance` path uses the common-date intersection across assets.
